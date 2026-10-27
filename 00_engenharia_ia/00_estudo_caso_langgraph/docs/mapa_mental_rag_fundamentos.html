@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mapa mental · RAG Foundations (enriquecido)</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0b0c;--card:#151517;--line:#2a2a2e;--ink:#ececf0;--mut:#9a9aa6}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 "Bricolage Grotesque",system-ui,sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:40px 20px 80px}
+.root{display:inline-block;background:#ececf0;color:#0b0b0c;border-radius:18px;padding:18px 26px}
+.root h1{margin:0;font-size:clamp(26px,5vw,38px);font-weight:800;letter-spacing:-.02em}
+.root p{margin:4px 0 0;font-size:14px;opacity:.7}
+.bar{display:flex;gap:10px;margin:22px 0 6px;flex-wrap:wrap;align-items:center}
+button{font:inherit;font-size:14px;border:1.5px solid var(--ink);background:transparent;color:var(--ink);border-radius:999px;padding:6px 16px;cursor:pointer}
+button:hover{background:var(--ink);color:var(--bg)}
+button:focus-visible,summary:focus-visible{outline:3px solid #60a5fa;outline-offset:2px}
+.hint{color:var(--mut);font-size:14px}
+.tree{margin:26px 0 0 18px;padding-left:34px;border-left:3px solid #ececf0}
+details.b{position:relative;margin:0 0 18px}
+details.b::before{content:"";position:absolute;left:-34px;top:25px;width:34px;height:3px;background:#ececf0}
+summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;background:color-mix(in srgb,var(--c) 14%,#0b0b0c);border:1.5px solid var(--c);color:var(--c);border-radius:14px;padding:12px 18px}
+summary::-webkit-details-marker{display:none}
+.t{font-weight:800;font-size:19px;letter-spacing:-.01em}
+.s{font-size:14px;color:var(--mut);display:block;font-weight:400}
+summary::after{content:"+";margin-left:auto;font-size:26px;transition:transform .2s}
+details[open]>summary::after{transform:rotate(45deg)}
+.leaves{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:12px;margin:12px 0 0 22px;padding-left:22px;border-left:3px solid var(--c)}
+.n{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--c);border-radius:10px;padding:12px 14px;font-size:15px}
+.n h3{margin:0 0 4px;font-size:15.5px;font-weight:600;color:var(--c)}
+.n p{margin:0}.n ul{margin:6px 0 0;padding-left:18px}.n li{margin:2px 0}
+.w{grid-column:1/-1}
+.vis{background:#000;border:1px solid var(--line);border-radius:10px;padding:14px;grid-column:1/-1}
+.vis small{display:block;color:var(--mut);margin-top:8px;font-size:13px}
+.claro{background:linear-gradient(135deg,#2a0d0d,#151517);border:1px solid #7f1d1d;border-left:5px solid #ef4444;border-radius:10px;padding:12px 14px;font-size:15px;grid-column:1/-1}
+.claro h3{margin:0 0 4px;font-size:15.5px;color:#f87171}
+code,.m{font:13px "IBM Plex Mono",monospace;background:#26262b;border-radius:5px;padding:1px 5px}
+svg{width:100%;height:auto;display:block}
+svg text{font:12px "Bricolage Grotesque",sans-serif;fill:#ececf0}
+.a{fill:var(--c)}.s2{stroke:var(--c);fill:none}.d{fill:#9a9aa6}
+.fl{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:14px;margin:4px 0}
+.fl span{background:#1d1d21;border:1px solid var(--c);border-radius:8px;padding:5px 10px}
+.fl i{font-style:normal;color:var(--mut)}.fl b{color:var(--mut);font-weight:600;min-width:84px}
+.cmp{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cmp>div{background:#101012;border:1px solid var(--line);border-radius:8px;padding:10px;font-size:14px}
+.cmp>div>b{display:block;color:var(--c);margin-bottom:4px}
+.wd{display:inline-block;padding:1px 5px;margin:1px;border-radius:4px;font-size:14px;background:#1d1d21;color:#555}
+.wd.on{color:#000;background:var(--c)}
+.bar2{height:16px;border-radius:4px;background:#2a2a2e;margin:3px 0;position:relative}
+.bar2 i{position:absolute;inset:0 auto 0 0;border-radius:4px;background:#475569}
+.bar2 i.g{background:var(--c)}
+.bar2 span{position:absolute;left:8px;top:-3px;font-size:12px;color:#fff;z-index:1;mix-blend-mode:normal;text-shadow:0 0 3px #000}
+.tg{display:inline-block;font:12px "IBM Plex Mono",monospace;background:#26262b;border-radius:5px;padding:1px 6px;margin:2px 2px 0 0}
+.ch{background:#101012;border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin:6px 0;font-size:14px}
+.ch.hit{border-color:var(--c);box-shadow:0 0 0 1px var(--c)}.ch.off{opacity:.35}
+@media(max-width:560px){.tree{margin-left:6px;padding-left:22px}details.b::before{left:-22px;width:22px}.leaves{margin-left:6px;padding-left:12px}.cmp{grid-template-columns:1fr}}
+footer{margin-top:30px;color:var(--mut);font-size:13px}
+@media print{details>*{display:block!important}.bar{display:none}}
+</style></head><body><div class="wrap">
+<div class="root"><h1>RAG Foundations</h1><p>Slides da Alura (Lucas Mendes) + conteúdo complementar · exemplos no contexto Claro</p></div>
+<div class="bar"><button id="o">Expandir tudo</button><button id="c">Recolher tudo</button><span class="hint">Cards com borda vermelha = exemplos Claro (ilustrativos). Itens marcados “+” vão além dos slides.</span></div>
+<main class="tree" id="T"></main>
+<footer>Base: slides “RAG Foundations” (Alura). Complementos e cenários Claro são ilustrações didáticas, não descrevem sistemas reais da empresa.</footer></div>
+<script>
+const fl=(a,l)=>`<div class="fl">${l?`<b>${l}</b>`:''}${a.map(x=>`<span>${x}</span>`).join('<i>→</i>')}</div>`;
+const cmp=(a,b,c,d)=>`<div class="cmp"><div><b>${a}</b>${b}</div><div><b>${c}</b>${d}</div></div>`;
+const words=(t,r)=>t.split(' ').map((w,i)=>`<span class="wd ${i>=r[0]&&i<=r[1]?'on':''}">${w}</span>`).join('');
+const bars=(a,g)=>a.map(([n,v,h])=>`<div class="bar2"><i class="${h?'g':''}" style="width:${v}%"></i><span>${n} · ${v/100}</span></div>`).join('');
+const V={
+1:`<svg viewBox="0 0 600 150"><g class="d">${['Qual','a','regra','da','cesta'].map((w,i)=>`<text x="${40+i*80}" y="120" text-anchor="middle" style="fill:#ececf0">${w}</text>`).join('')}</g>
+<path class="s2" stroke-width="4" d="M360 105Q280 20 200 105"/><path class="s2" stroke-width="2" d="M360 105Q200 -20 40 105" opacity=".6"/><path class="s2" stroke-width="1.5" d="M360 105Q340 70 320 105" opacity=".6"/>
+<rect x="430" y="45" width="80" height="50" rx="10" class="s2" stroke-width="2"/><text x="470" y="75" text-anchor="middle">LLM</text><path class="s2" d="M512 70h40M544 63l8 7-8 7"/><text x="565" y="74" text-anchor="middle">resposta</text></svg>
+<small>Atenção: ao processar “cesta”, o modelo pesa mais as palavras que dão sentido a ela (linha grossa = mais atenção). É assim que o contexto vira resposta.</small>`,
+2:cmp('Fine-tuning',fl(['Modelo base','+ exemplos de respostas','Modelo com pesos alterados']),'RAG',fl(['Modelo base (intacto)','+ documentos atuais','Resposta com fonte']))+'<small>Fine-tuning muda o comportamento do modelo; RAG muda o que o modelo tem à mão na hora de responder.</small>',
+3:fl(['PDF / Word / Excel / BD','Chunks','Embeddings','Vector Store'],'Indexação')+fl(['Pergunta','Embedding da pergunta','Retriever: top-k','LLM (pergunta + trechos)','Resposta'],'Consulta')+'<small>A indexação roda uma vez (e é atualizada quando os documentos mudam); a consulta roda a cada pergunta.</small>',
+4:`<svg viewBox="0 0 600 270"><rect x="1" y="1" width="598" height="268" rx="8" fill="none" stroke="#2a2a2e"/>
+<circle cx="150" cy="70" r="46" class="s2" stroke-dasharray="4"/><circle cx="440" cy="190" r="62" class="s2" stroke-dasharray="4" opacity=".5"/>
+${[[125,60,'contrato de trabalho'],[170,85,'acordo empregatício'],[420,175,'demissão sem justa causa'],[465,210,'rescisão imotivada']].map(p=>`<circle cx="${p[0]}" cy="${p[1]}" r="6" class="a"/><text x="${p[0]+10}" y="${p[1]-8}">${p[2]}</text>`).join('')}
+<circle cx="520" cy="60" r="6" fill="#94a3b8"/><text x="400" y="52">banco de dados</text><circle cx="70" cy="215" r="6" fill="#94a3b8"/><text x="82" y="240">sentar no banco da praça</text>
+<path d="M300 130l5 12 12 1-9 8 3 12-11-7-11 7 3-12-9-8 12-1z" fill="#fbbf24"/><text x="262" y="165" style="fill:#fbbf24">“posso ser demitido sem motivo?”</text><path d="M300 130L440 188" stroke="#fbbf24" stroke-dasharray="3" fill="none"/></svg>
+<small>Mapa 2D simplificado (reais têm 384–3072 dimensões). A pergunta (estrela) cai perto dos textos de rescisão — mesmo sem repetir as palavras. “Banco” de dados e “banco” da praça ficam longe: o significado separa o que a grafia une.</small>`,
+5:`<svg viewBox="0 0 600 230"><g stroke-width="3"><path class="s2" d="M60 200L340 60"/><path class="s2" d="M60 200L300 110"/></g><path d="M60 200L340 60M60 200L300 110" stroke-width="0"/>
+<path d="M120 177A66 66 0 0 1 125 188" class="s2"/><text x="140" y="182">θ</text><text x="345" y="58">A</text><text x="305" y="110">B</text>
+<path d="M340 60L300 110" stroke="#fbbf24" stroke-dasharray="4" fill="none"/><text x="332" y="98" style="fill:#fbbf24">euclidiana</text>
+<text x="420" y="70">cosseno = cos θ</text><text x="420" y="92" class="d">1 = mesma direção</text><text x="420" y="112" class="d">0 = sem relação</text><text x="420" y="152">produto escalar = |A|·|B|·cos θ</text><text x="420" y="172" class="d">com vetores normalizados</text><text x="420" y="190" class="d">= cosseno</text></svg>
+<small>Cosseno compara direção (significado); euclidiana compara a distância entre as pontas (sensível ao tamanho do vetor).</small>`,
+6:cmp('Proprietário (API)',fl(['Seu texto','Internet','Provedor gera vetor']).replace(/<span>/g,'<span>')+'<span style="color:#f87171">dados saem do ambiente</span>','Open source (local)',fl(['Seu texto','Modelo no seu servidor','Vetor']) +'<span style="color:#4ade80">dados ficam no ambiente</span>'),
+7:`<div style="font-size:13px;color:#9a9aa6">Tamanho fixo (corta no meio da ideia)</div>${words('O cliente pode cancelar o plano a qualquer momento desde que respeite os prazos',[0,7])}<br>${words('O cliente pode cancelar o plano a qualquer momento desde que respeite os prazos',[8,13])}
+<div style="font-size:13px;color:#9a9aa6;margin-top:10px">Com overlap (a fronteira aparece nos dois chunks)</div>${words('O cliente pode cancelar o plano a qualquer momento desde que respeite os prazos',[0,8])}<br>${words('O cliente pode cancelar o plano a qualquer momento desde que respeite os prazos',[5,13])}
+<small>Cada linha é um chunk (destacado). No tamanho fixo, “momento desde que” cai separado de “cancelar”. Com overlap, “a qualquer momento” aparece nos dois — a busca não perde a ideia.</small>`,
+8:`<div class="ch off">“Plano pós-pago: franquia de dados…” <span class="tg">categoria: Produto</span><span class="tg">versão: 2025</span></div><div class="ch hit">“O cliente pode solicitar o cancelamento a qualquer momento…” <span class="tg">categoria: Jurídico</span><span class="tg">versão: 2026</span></div><div class="ch off">“Cancelamento (regra antiga)…” <span class="tg">categoria: Jurídico</span><span class="tg">versão: 2023</span></div>
+<small>Filtro: categoria = Jurídico E versão = 2026 → só o chunk destacado entra na busca vetorial.</small>`,
+9:fl(['FAISS · notebook local','Chroma · app RAG com persistência','pgvector/Supabase · SQL + permissões'])+`<div class="bar2" style="margin-top:8px"><i class="g" style="width:100%;background:linear-gradient(90deg,#164e63,#22d3ee)"></i></div><small>Do protótipo ao corporativo: mais recursos de governança (filtros, permissões, backup) à medida que sobe.</small>`,
+10:cmp('Antes (só vetor)',bars([['chunk genérico',90],['política geral',85],['FAQ',80],['cláusula de fidelização',78,1]]),'Depois (reranker)',bars([['cláusula de fidelização',96,1],['política geral',60],['chunk genérico',40],['FAQ',30]]))+'<small>O reranker lê pergunta e trecho juntos e reordena; o LLM recebe o que de fato responde.</small>',
+11:fl(['Busca híbrida (BM25 + vetor)','Reescrita da pergunta','Avaliação (RAGAS)','Citações e guardrails','RAG agêntico'])};
+const D=[
+{t:"1. Fundamentos de LLMs",s:"Por que o RAG existe",c:"#2dd4bf",v:1,n:[
+ {h:"Transformer e atenção",p:"Slides: o artigo <i>Attention Is All You Need</i> (arxiv 1706.03762). Cada token “olha” para os outros e decide quais importam para gerar o próximo."},
+ {h:"+ Limites de um LLM puro",p:"Conhecimento congelado no treino, sem acesso a dados privados e propenso a <b>alucinar</b> quando não sabe. Janela de contexto é finita: não dá para colar toda a base da empresa no prompt.",ul:["Resposta = f(contexto recebido)","RAG melhora o contexto, não o modelo"]}],
+ k:"Um LLM genérico não conhece planos, ofertas e políticas vigentes da Claro, nem a documentação dos seus modelos de churn. Sem contexto externo, ele inventa ou generaliza."},
+{t:"2. Fine-tuning vs RAG",s:"Como responde × com base em quê responde",c:"#818cf8",v:2,n:[
+ {h:"Fine-tuning",p:"<b>Especializa</b> o modelo: tom, estilo, formato, padrão fixo, linguagem institucional.",ul:["Custo de treino e novo ciclo a cada mudança","Conhecimento “embutido” nos pesos, sem fonte"]},
+ {h:"RAG",p:"<b>Conecta</b> o modelo ao conhecimento: conteúdo que muda, documentos internos, resposta com fonte.",ul:["Atualiza trocando documentos, sem retreinar","Permite citar e auditar"]},
+ {h:"+ Não são excludentes",p:"Combinação comum: fine-tuning para estilo/formato e RAG para fatos. Antes de qualquer um, prompt bem desenhado costuma resolver boa parte."}],
+ k:"Tom de voz do atendimento Claro → ajuste de estilo. Tabela de planos que muda todo mês → RAG. Para quem retreina modelos que ficam obsoletos, a analogia é direta: RAG atualiza o conhecimento sem retreinar."},
+{t:"3. Arquitetura geral do RAG",s:"Buscar antes de gerar",c:"#fbbf24",v:3,n:[
+ {h:"Definição",p:"<b>Retrieval Augmented Generation</b>: busca informações relevantes em bases externas antes de gerar a resposta final. O LLM recebe <b>pergunta + contexto externo</b>."},
+ {h:"Prompt tradicional × RAG",p:"Pergunta do curso: “Quais as regras de retirada da cesta de Natal?” Sem RAG o LLM chuta; com RAG consulta a base de conhecimento do RH e responde com base nela."},
+ {h:"+ Papel do LangChain",p:"Orquestra as peças: <i>loaders</i> (lêem PDF/Word), <i>text splitters</i>, embeddings, vector store, <i>retriever</i> e o LLM, encadeados via LCEL."},
+ {h:"+ Por que reduz alucinação",p:"O modelo é instruído a responder só com os trechos recuperados e a dizer “não sei” quando não houver base."}],
+ k:"Assistente interno de atendimento: o atendente pergunta “cliente pode cancelar sem multa?”; o RAG recupera o trecho do regulamento e das condições do plano e responde citando o documento."},
+{t:"4. Embeddings e similaridade semântica",s:"Significado transformado em números",c:"#f472b6",v:4,n:[
+ {h:"O que são",p:"Vetores que representam o significado de textos (ou imagens, áudio). Textos de sentido parecido ficam <b>próximos</b> no espaço vetorial."},
+ {h:"Busca semântica",p:"Pergunta e documentos viram embeddings; compara-se a proximidade. Acha “rescisão contratual imotivada” mesmo se você buscou “demissão sem justa causa”."},
+ {h:"+ Regra de ouro",p:"Use <b>o mesmo modelo de embedding</b> para indexar e para consultar; vetores de modelos diferentes não são comparáveis. Trocar de modelo = reindexar tudo."},
+ {h:"+ Limites",p:"Pode confundir negações (“pode” × “não pode”) e números/códigos exatos (cláusula 4.2): por isso busca híbrida e metadados ajudam."}],
+ k:"Embeddings de textos de reclamação (SAC, Ouvidoria): “internet caindo” e “sem sinal à noite” ficam próximos. Serve para agrupar motivos de reclamação e pode virar feature para modelos de propensão a reclamação ou churn."},
+{t:"5. Métricas de similaridade",s:"Medir proximidade",c:"#38bdf8",v:5,n:[
+ {h:"Cosseno",p:"Mede o <b>ângulo</b> (direção); o tamanho do vetor pouco importa. No slide: “contrato de trabalho” × “acordo empregatício” = <span class='m'>0.98</span>."},
+ {h:"Euclidiana e produto escalar",p:"Citadas nos slides. Euclidiana mede a distância entre pontas (menor = mais próximo); produto escalar mistura direção e magnitude."},
+ {h:"+ Como escolher",p:"Siga a métrica recomendada para o modelo de embedding. Com vetores normalizados, cosseno e produto escalar dão o mesmo ranking (e produto escalar é mais barato)."}],
+ k:"Na prática: normalize os embeddings e use cosseno/produto escalar; é o padrão da maioria dos vector stores."},
+{t:"6. Embeddings: open source vs proprietários",s:"Onde seus dados vão parar",c:"#4ade80",v:6,n:[
+ {h:"Proprietários",p:"Via API, modelos fechados e otimizados, sem acesso aos pesos; <b>dados saem do ambiente</b>.",ul:["OpenAI text-embedding-3-small/large","Google Gemini Embeddings","Azure OpenAI","Cohere embed v3","Amazon Titan"]},
+ {h:"Open source",p:"Executados localmente ou na nuvem, controle total; <b>ideal para dados sensíveis</b>.",ul:["Sentence-Transformers (all-MiniLM-L6-v2, all-mpnet-base-v2)","Llama, Mistral, Qwen","Hugging Face Hub"]},
+ {h:"+ Critérios de decisão",p:"Privacidade, custo por volume, latência, qualidade em <b>português</b> (prefira modelos multilíngues) e esforço de operar GPU/infra."}],
+ k:"Dados de clientes e contratos estão sob LGPD. Para conteúdo sensível, open source em ambiente controlado costuma ser o caminho; para documentação pública, API é mais simples. Decisão a alinhar com Segurança e Jurídico."},
+{t:"7. Chunking",s:"Dividir em unidades de significado",c:"#fb923c",v:7,n:[
+ {h:"Por que é essencial",p:"Embeddings são gerados <b>por chunk</b>. Um documento inteiro vira um vetor “borrado”; um chunk coeso vira um vetor preciso — e o LLM recebe só o necessário."},
+ {h:"Estratégias dos slides",ul:["<b>Tamanho fixo:</b> a cada N caracteres, ignora o sentido","<b>Sentenças:</b> respeita final das frases","<b>Parágrafos:</b> cada parágrafo (ou grupo) é um chunk","<b>Overlap:</b> repete parte entre chunks (ex.: 500 tokens, overlap 100)"]},
+ {h:"+ Trade-off de tamanho",p:"Chunk pequeno: preciso, mas perde contexto. Chunk grande: contexto rico, mas vetor menos específico. Ponto de partida comum: algo entre 200–1000 tokens, com overlap de 10–20%, validado com perguntas reais."}],
+ k:"Contratos de plano têm cláusulas numeradas: dividir por cláusula/seção mantém “4.2 Cancelamento” inteira. Já FAQ de atendimento funciona bem por pergunta-resposta."},
+{t:"8. Metadados",s:"Filtrar, organizar, direcionar",c:"#a78bfa",v:8,n:[
+ {h:"O que são",p:"Informações sobre o chunk fora do texto principal. <b>Não geram embedding</b>: filtram e direcionam a busca."},
+ {h:"Tipos dos slides",ul:["<b>Origem:</b> documento/sistema","<b>Seção:</b> posição no documento","<b>Categoria:</b> domínio do conteúdo"]},
+ {h:"Exemplo",p:"<code>{\"origem\":\"Manual_do_Cliente.pdf\",\"secao\":\"Política de Cancelamento\",\"categoria\":\"Jurídico\"}</code>"},
+ {h:"+ Valor extra",p:"Permitem <b>citar a fonte</b> na resposta, controlar <b>permissão por perfil</b> e filtrar por <b>versão/data de vigência</b>."}],
+ k:"Filtrar por produto (pós, controle, pré), canal (varejo, B2B) e vigência da oferta evita responder com regra vencida."},
+{t:"9. Vector Store",s:"O banco que busca por significado",c:"#22d3ee",v:9,n:[
+ {h:"O que é",p:"Armazena embeddings e permite busca por similaridade. Responde “qual texto tem significado parecido?” em vez de “qual texto tem essa palavra?”."},
+ {h:"Relacional × vetorial",ul:["SQL: busca exata/lógica (=, LIKE), dados estruturados, transações e relatórios","Vetorial: similaridade, dados não estruturados, busca semântica"]},
+ {h:"Os 4 pilares",ul:["Embeddings","Índice vetorial (busca rápida)","Metadados","Similaridade"]},
+ {h:"+ Índice vetorial",p:"Comparar com todos os vetores é lento em escala. Índices aproximados (ex.: HNSW, IVF) trocam um pouco de exatidão por muita velocidade (ANN)."},
+ {h:"FAISS",p:"Motor de cálculo, <b>não é banco</b>; ideal para notebook local (ex.: 50 mil embeddings em memória)."},
+ {h:"ChromaDB",p:"VectorStore pronto: embeddings, textos, metadados e persistência local; chatbot sobre PDFs com LangChain em poucas linhas."},
+ {h:"Supabase (pgvector)",p:"PostgreSQL com vetores: SQL + busca semântica, filtros por área, versão e permissão. Corporativo."}],
+ k:"Prototipar um RAG sobre documentação de modelos (model cards, runbooks de retreino) em FAISS/Chroma; em produção, pgvector facilita permissões e integração com dados já em SQL."},
+{t:"10. Recuperação avançada",s:"Quando o top-k puro não basta",c:"#e879f9",v:10,n:[
+ {h:"Limitações",ul:["Ranking só por distância vetorial, sem a intenção fina da pergunta","Texto parecido ≠ texto que responde bem","O melhor documento pode ficar em 4º ou 5º","Resultado: LLM com contexto subótimo"]},
+ {h:"Reranking",p:"Recupera mais candidatos (ex.: top-20), um modelo mais preciso reordena e fica o top-3/5. Fluxo: Retriever → Reranker → LLM."},
+ {h:"+ Por que o reranker é melhor (e mais lento)",p:"A busca vetorial compara vetores calculados separadamente (rápido). O reranker (cross-encoder) lê pergunta e trecho juntos (preciso, mais caro) — por isso só roda sobre poucos candidatos."}],
+ k:"“Posso cancelar sem multa?”: a busca traz textos sobre cancelamento em geral; o reranker sobe a cláusula de fidelização, que de fato responde."},
+{t:"11. Caminhos de evolução do RAG",s:"Slide traz só o título; abaixo, complemento",c:"#94a3b8",v:11,n:[
+ {h:"+ Busca híbrida",p:"Combina busca vetorial com busca por palavras-chave (BM25): cobre códigos, siglas e números exatos que embeddings erram."},
+ {h:"+ Avaliação",p:"Medir a recuperação (os chunks certos vieram?) e a geração (a resposta é fiel ao contexto?). Frameworks como RAGAS ajudam. Sem isso, não há como melhorar com evidência."},
+ {h:"+ Reescrita de pergunta, citações, guardrails, RAG agêntico",p:"Reformular perguntas vagas, citar a fonte, bloquear respostas fora do escopo e deixar o modelo decidir quando e onde buscar."}],
+ k:"Trate a qualidade do RAG como trata um modelo em produção: monitore a recuperação ao longo do tempo (documentos mudam, perguntas mudam), como já se faz com drift."}];
+const T=document.getElementById('T');
+D.forEach((b,i)=>{const d=document.createElement('details');d.className='b';d.style.setProperty('--c',b.c);d.open=i==0;
+let h=`<summary><div><span class="t">${b.t}</span><span class="s">${b.s}</span></div></summary><div class="leaves"><div class="vis">${V[b.v]}</div>`;
+b.n.forEach(n=>{h+=`<div class="n"><h3>${n.h}</h3>${n.p?`<p>${n.p}</p>`:''}${n.ul?'<ul>'+n.ul.map(x=>`<li>${x}</li>`).join('')+'</ul>':''}</div>`});
+d.innerHTML=h+`<div class="claro"><h3>Cenário Claro (ilustrativo)</h3>${b.k}</div></div>`;T.appendChild(d)});
+const A=()=>document.querySelectorAll('details.b');
+o.onclick=()=>A().forEach(d=>d.open=true);c.onclick=()=>A().forEach(d=>d.open=false);
+</script></body></html>
