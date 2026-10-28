@@ -46,3 +46,4 @@ secrets/
 # Arquivos
 utils.md
 .gitignore
+00_rag_langgraph\.gitignore
