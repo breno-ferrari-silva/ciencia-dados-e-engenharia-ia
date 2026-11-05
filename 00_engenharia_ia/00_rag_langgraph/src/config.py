@@ -1,0 +1,1 @@
+TESTE = 'ISSO E UM TESTE'
